@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multi-page template</title>
+    <link rel="stylesheet" href="./css/themes/default/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="./assets/css/jqm-demos.css">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <script src="./js/jquery.js"></script>
+    <script src="./assets/js/index.js"></script>
+    <script src="./assets/js/mine.js"></script>
+    <script src="./js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-plugin.js"></script>
+    <script>
+      // Update the contents of the toolbars
+      $( document ).on( "pagecontainerchange", function() {
+          // Each of the four pages in this demo has a data-title attribute
+          // which value is equal to the text of the nav button
+          // For example, on first page: <div data-role="page" data-title="Info">
+        var current = $( ".ui-page-active" ).jqmData( "title" );
+        // Change the heading
+        $( "[data-role='header'] h1" ).text( current );
+        // Remove active class from nav buttons
+
+        });
+
+
+        $( document ).on( "pagecreate", function() {
+        $( "body > [data-role='panel']" ).panel();
+        $( "body > [data-role='panel'] [data-role='listview']" ).listview();
+        });
+        $( document ).one( "pageshow", function() {
+        $( "body > [data-role='header']" ).toolbar();
+        $( "body > [data-role='header'] [data-role='navbar']" ).navbar();
+        });
+        $(function() {
+        $( "[data-role='navbar']" ).navbar();
+        $( "[data-role='header'], [data-role='footer']" ).toolbar();
+        $( "#showbanners" ).bind( "tap", inithomepage);
+        $( "#clearcache" ).bind( "tap", isDeleteCatcheFile);
+        });
+
+
+        $( document ).on( "pagecreate", "#one", function() {
+        $( document ).on( "swipeleft swiperight", "#one", function( e ) {
+        // We check if there is no open panel on the page because otherwise
+        // a swipe to close the left panel would also open the right panel (and v.v.).
+        // We do this by checking the data that the framework stores on the page element (panel: open).
+        if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+        if ( e.type === "swipeleft" ) {
+        $( "#right-panel" ).panel( "open" );
+        } else if ( e.type === "swiperight" ) {
+        $( "#left-panel" ).panel( "open" );
+        }
+        }
+        });
+
+
+
+
+        });
+
+        $( document ).on( "pagecreate", "#two", function() {
+        $( document ).on( "swipeleft swiperight", "#two", function( e ) {
+        // We check if there is no open panel on the page because otherwise
+        // a swipe to close the left panel would also open the right panel (and v.v.).
+        // We do this by checking the data that the framework stores on the page element (panel: open).
+        if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+        if ( e.type === "swipeleft" ) {
+        $( "#right-panel" ).panel( "open" );
+        } else if ( e.type === "swiperight" ) {
+        $( "#left-panel" ).panel( "open" );
+        }
+        }
+        });
+        });
+    </script>
+  </head>
+
+  <body>
+
+    <div data-role="header" data-position="fixed" data-theme="a" data-tap-toggle="false">
+      <h1>External header Page B</h1>
+      <a href="#inside-a" data-icon="bars" data-iconpos="notext">Left</a>
+      <a href="#inside-b" data-icon="bars" data-iconpos="notext">Right</a>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="index.html">Page A</a></li>
+          <li><a href="page-b.html">Page B</a></li>
+          <li><a href="page-c.html">Page C</a></li>
+        </ul>
+      </div>
+    </div><!-- /header -->
+
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="index.html">Page A</a></li>
+          <li><a href="page-b.html" class="ui-btn-active ui-state-persist">Page B</a></li>
+          <li><a href="page-c.html">Page C</a></li>
+        </ul>
+      </div>
+    </div><!-- /header -->
+
+    <div data-role="panel" id="right-panel" data-position="right" data-display="push" data-theme="b" data-dom-cache="true">
+      <ul data-role="listview">
+        <li data-icon="back"><a href="#" data-rel="close">Close</a></li>
+        <li>Right panel</li>
+        <li>Page B</li>
+        <li>Push</li>
+      </ul>
+    </div>
+
+    <div data-role="panel" id="left-panel" data-display="push" data-theme="b" data-dom-cache="true">
+      <ul data-role="listview">
+        <li data-icon="back"><a href="#" data-rel="close">Close</a></li>
+        <li>Left panel</li>
+        <li>Page B</li>
+        <li>Push</li>
+      </ul>
+    </div>
+
+    <!-- Start of first page: #one  -->
+    <div data-role="page" id="one" data-title="First Page" data-tap-toggle="false" data-dom-cache="true">
+
+
+
+      <div role="main" class="ui-content">
+        <h2>One</h2>
+
+        <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the page.</p>
+
+        <a href="#left-panel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline">Open right panel</a>
+        <a href="#right-panel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline">Open right panel</a>
+
+        <p>I have an <code>id</code> of "one" on my page container. I'm first in the source order so I'm shown when the page loads.</p>
+
+        <p><a href="#two" class="ui-btn ui-shadow ui-corner-all" data-transition="slide">Show page "two"</a></p>
+        <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a></p>
+
+        <p><a href="./toolbar-fixed-persistent/index.html" class="ui-btn ui-shadow ui-corner-all" data-transition="slide">Go to toobar fixed demo</a></p>
+        <p><a href="./toolbar-fixed-persistent-optimized/index.html" class="ui-btn ui-shadow ui-corner-all" data-transition="slide">Go to optimized toolbar fixed demo</a></p>
+
+
+        <p>This is a multi-page boilerplate template that you can copy to build your first jQuery Mobile page. This template contains multiple "page" containers inside, unlike a single page template that has just one page within it.</p>
+        <p>Just view the source and copy the code to get started. All the CSS and JS is linked to the jQuery CDN versions so this is super easy to set up. Remember to include a meta viewport tag in the head to set the zoom level.</p>
+        <p>You link to internal pages by referring to the <code>id</code> of the page you want to show. For example, to <a href="#two">link</a> to the page with an <code>id</code> of "two", my link would have a <code>href="#two"</code> in the code.</p>
+
+        <h3>Show internal pages:</h3>
+        <a id="showbanners" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">加载图片</a>
+        <a id="clearcache" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">清除缓存</a>
+
+          <div class="banner" id="js_flexslider">
+            <ul class="slides">
+              <!--<li>
+              <a href="###" rel="external"><img src="./assets/images/banner1.png"  /></a>
+              <p class="flex-caption">第一张图片的底部描述布拉布拉</p>
+              </li>
+              <li>
+              <a href="###" rel="external"><img src="./assets/images/banner2.png"  /></a>
+              <p class="flex-caption">第二张图片的底部描述布拉布拉</p>
+              </li>
+              <li>
+              <a href="###" rel="external"><img src="./assets/images/banner3.png" /></a>
+              <p class="flex-caption">第三张图片的底部描述布拉布拉</p>
+              </li>
+              <li>
+              <a href="###" rel="external"><img src="./assets/images/banner4.png"  /></a>
+              <p class="flex-caption">第四张图片的底部描述布拉布拉</p>
+              </li>-->
+           </ul>
+          </div>
+
+
+
+        <form class="ui-filterable">
+          <input id="rich-autocomplete-input" data-type="search" placeholder="Search ticker or firm name...">
+        </form>
+        <ul data-role="listview" data-filter="true" data-inset="true" data-input="#rich-autocomplete-input">
+          <li data-filtertext="NASDAQ:ADBE Adobe Systems Incorporated"><a href="#">Adobe</a></li>
+          <li data-filtertext="NASDAQ:AMZNL Amazon.com, Inc."><a href="#">Amazon</a></li>
+          <li data-filtertext="NASDAQ:AAPL Apple Inc."><a href="#">Apple</a></li>
+          <li data-filtertext="NASDAQ:GOOG Google Inc."><a href="#">Google</a></li>
+          <li data-filtertext="NYSE:IBM Intl. International Business Machines Corp."><a href="#">IBM</a></li>
+          <li data-filtertext="NASDAQ:MSFT Microsoft Corporation"><a href="#">Microsoft</a></li>
+          <li data-filtertext="NASDAQ:YHOO Yahoo! Inc."><a href="#">Yahoo</a></li>
+          <li data-filtertext="USA U.S.A. United States of America"><a href="#">United States</a></li>
+        </ul>
+
+
+        <ul data-role="listview" data-inset="true">
+          <li><a href="#">
+              <img src="./assets/img/album-bb.jpg">
+              <h2>Broken Bells</h2>
+              <p>Broken Bells</p></a>
+            </li>
+          <li><a href="#">
+              <img src="./assets/img/album-hc.jpg">
+              <h2>Warning</h2>
+              <p>Hot Chip</p></a>
+            </li>
+          <li><a href="#">
+              <img src="./assets/img/album-p.jpg">
+              <h2>Wolfgang Amadeus Phoenix</h2>
+              <p>Phoenix</p></a>
+            </li>
+        </ul>
+    </div><!-- /content -->
+
+
+</div><!-- /page one -->
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" data-theme="a" data-title="Second Page" data-tap-toggle="false" data-dom-cache="true">
+
+
+    <div role="main" class="ui-content">
+        <h2>Two</h2>
+        <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the page.</p>
+
+        <a href="#left-panel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline">Open right panel</a>
+        <a href="#right-panel" class="ui-btn ui-shadow ui-corner-all ui-btn-inline">Open right panel</a>
+        <p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>
+        <p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>
+        <p><a href="#one" data-direction="reverse" data-transition="slide" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to page "one"</a></p>
+
+
+<form class="ui-filterable">
+          <input id="rich-autocomplete-input" data-type="search" placeholder="Search ticker or firm name...">
+        </form>
+        <ul data-role="listview" data-filter="true" data-inset="true" data-input="#rich-autocomplete-input">
+          <li data-filtertext="NASDAQ:ADBE Adobe Systems Incorporated"><a href="#">Adobe</a></li>
+          <li data-filtertext="NASDAQ:AMZNL Amazon.com, Inc."><a href="#">Amazon</a></li>
+          <li data-filtertext="NASDAQ:AAPL Apple Inc."><a href="#">Apple</a></li>
+          <li data-filtertext="NASDAQ:GOOG Google Inc."><a href="#">Google</a></li>
+          <li data-filtertext="NYSE:IBM Intl. International Business Machines Corp."><a href="#">IBM</a></li>
+          <li data-filtertext="NASDAQ:MSFT Microsoft Corporation"><a href="#">Microsoft</a></li>
+          <li data-filtertext="NASDAQ:YHOO Yahoo! Inc."><a href="#">Yahoo</a></li>
+          <li data-filtertext="USA U.S.A. United States of America"><a href="#">United States</a></li>
+        </ul>
+
+
+        <ul data-role="listview" data-inset="true">
+          <li><a href="#">
+              <img src="./assets/img/album-bb.jpg">
+              <h2>Broken Bells</h2>
+              <p>Broken Bells</p></a>
+            </li>
+          <li><a href="#">
+              <img src="./assets/img/album-hc.jpg">
+              <h2>Warning</h2>
+              <p>Hot Chip</p></a>
+            </li>
+          <li><a href="#">
+              <img src="./assets/img/album-p.jpg">
+              <h2>Wolfgang Amadeus Phoenix</h2>
+              <p>Phoenix</p></a>
+            </li>
+        </ul>
+    </div><!-- /content -->
+
+
+</div><!-- /page two -->
+
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+
+    <div data-role="header" data-theme="b">
+        <h1>Dialog</h1>
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content">
+        <h2>Popup</h2>
+        <p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>
+        <p><a href="#one" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back to page "one"</a></p>
+
+
+
+    </div><!-- /content -->
+
+
+</div><!-- /page popup -->
+
+</body>
+</html>
