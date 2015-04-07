@@ -41,7 +41,8 @@
         $( "[data-role='navbar']" ).navbar();
         $( "[data-role='header'], [data-role='footer']" ).toolbar();
         $( "#showbanners" ).bind( "tap", inithomepage);
-        $( "#clearcache" ).bind( "tap", isDeleteCatcheFile);
+        $( "#clearbannercache" ).bind( "tap", isDeleteCatcheFile);
+        $( "#setbannercache" ).bind( "tap", putBannerCodeInCache);
         });
 
 
@@ -58,10 +59,6 @@
         }
         }
         });
-
-
-
-
         });
 
         $( document ).on( "pagecreate", "#two", function() {
@@ -152,7 +149,8 @@
 
         <h3>Show internal pages:</h3>
         <a id="showbanners" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">加载图片</a>
-        <a id="clearcache" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">清除缓存</a>
+        <a id="clearbannercache" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">清除缓存</a>
+        <a id="setbannercache" href="###"  class="ui-btn ui-shadow ui-corner-all ui-btn-inline">设置缓存</a>
 
           <div class="banner" id="js_flexslider">
             <ul class="slides">
@@ -216,8 +214,6 @@
 
 <!-- Start of second page: #two -->
 <div data-role="page" id="two" data-theme="a" data-title="Second Page" data-tap-toggle="false" data-dom-cache="true">
-
-
     <div role="main" class="ui-content">
         <h2>Two</h2>
         <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the page.</p>
@@ -227,7 +223,6 @@
         <p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>
         <p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>
         <p><a href="#one" data-direction="reverse" data-transition="slide" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to page "one"</a></p>
-
 
 <form class="ui-filterable">
           <input id="rich-autocomplete-input" data-type="search" placeholder="Search ticker or firm name...">

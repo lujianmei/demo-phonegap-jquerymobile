@@ -73,12 +73,41 @@ function displayBanner(data){
     });
     var mainbanner_cache = $('#js_flexslider>ul').html();
     alert("flexslider>ul="+$('#js_flexslider>ul').html());
-    //写入缓存
-    setCache('mainbanner',mainbanner_cache);
-    setCache('mainbanner_time', getTimestamp());  //写入缓存的时候顺便写入缓存的时间
+    setTimeOut(putBannerCodeInCache(),5000);
 
 }
 
+var time_number = 1;
+
+/**********
+ * 存储banner代码到cache
+ * **************/
+function putBannerCodeInCache(){
+    var flag = false;
+    var img_src = "";
+    $('#js_flexslider>ul>li>a>img').each(function(){
+        img_src = $(this).attr("src");
+        alert("img_src="+img_src);
+        if(img_src!=null && !(img_src.indexOf("errorimg")>-1) && !(img_src.indexOf("file://")>-1)){
+            flag = true;
+        }
+    });
+    if(flag){
+        alert("not finished set bannercode");
+        if(time_number<3){
+            time_number++;
+            setTimeOut(putBannerCodeInCache(mainbanner_cache),5000);
+        }
+    }else{
+        alert("finished set bannercode");
+        var mainbanner_cache = $('#js_flexslider>ul').html();
+        alert("flexslider>ul="+$('#js_flexslider>ul').html())
+        //写入缓存
+        setCache('mainbanner',mainbanner_cache);
+        setCache('mainbanner_time', getTimestamp());  //写入缓存的时候顺便写入缓存的时间
+    }
+
+}
 
 
 var dir = "zhoushannews_files";
@@ -105,8 +134,10 @@ function localFile(sourceUrl,imgName) {
                                              //文件存在就直接显示
                                              var smallImage = document.getElementById(imgName);
                                              smallImage.style.display = 'block';
-                                             smallImage.src = fileEntry.fullPath;
+                                             //smallImage.src = fileEntry.fullPath;
+                                             smallImage.src = fileEntry.toURL();
                                              alert("entry.fullPath="+fileEntry.fullPath);
+                                             alert("entry.toURL="+fileEntry.toURL());
                                          }, function(){
                                              alert("redownload file");
                                              //否则就到网络下载图片!
@@ -141,11 +172,13 @@ function downloadPic(sourceUrl,targetUrl,id){
         uri,targetUrl,function(entry){
             var smallImage = document.getElementById(id);
             smallImage.style.display = 'block';
-            smallImage.src = entry.fullPath;
-            alert("redownload entry.fullPath="+entry.fullPath);
+            //smallImage.src = entry.fullPath;
+            smallImage.src = entry.toURL();
+            alert("redownload entry.toURL="+entry.toURL());
         },function(error){
             console.log("下载网络图片出现错误");
         });
+    alert("图片下载完成");
 }
 
 /**
