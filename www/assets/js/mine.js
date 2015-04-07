@@ -3,23 +3,14 @@
 function inithomepage(){
     //初使化banner图 -- 先取缓存，再重新下载新图片
     var mainbanner_storage = getCache("mainbanner");
-
-    alert(mainbanner_storage);
     if(mainbanner_storage!=null){
-        alert("have mainbanner");
         $('#js_flexslider>ul').html("");
         $('#js_flexslider>ul').html(mainbanner_storage);
-        alert("before settimeout finished:"+$('#js_flexslider>ul').html());
         //重新再加载新的banner图片
-       // setTimeout(flexslider_datainit(null,false), 5000);
-
-        alert("all finished:"+$('#js_flexslider>ul').html());
-
+       setTimeout(flexslider_datainit(null,false), 8000);
     }else{
-        alert("do not have mainbanner");
         //下载并加载
         flexslider_datainit(null,true);
-        alert("loading from json finished");
     }
 }
 
@@ -72,8 +63,7 @@ function displayBanner(data){
         list_l = "";
     });
     var mainbanner_cache = $('#js_flexslider>ul').html();
-    alert("flexslider>ul="+$('#js_flexslider>ul').html());
-    setTimeOut(putBannerCodeInCache(),5000);
+    setTimeOut(putBannerCodeInCache(),8000);
 
 }
 
@@ -87,21 +77,17 @@ function putBannerCodeInCache(){
     var img_src = "";
     $('#js_flexslider>ul>li>a>img').each(function(){
         img_src = $(this).attr("src");
-        alert("img_src="+img_src);
         if(img_src!=null && !(img_src.indexOf("errorimg")>-1) && !(img_src.indexOf("file://")>-1)){
             flag = true;
         }
     });
     if(flag){
-        alert("not finished set bannercode");
         if(time_number<3){
             time_number++;
-            setTimeOut(putBannerCodeInCache(mainbanner_cache),5000);
+            setTimeOut(putBannerCodeInCache(mainbanner_cache),8000);
         }
     }else{
-        alert("finished set bannercode");
         var mainbanner_cache = $('#js_flexslider>ul').html();
-        alert("flexslider>ul="+$('#js_flexslider>ul').html())
         //写入缓存
         setCache('mainbanner',mainbanner_cache);
         setCache('mainbanner_time', getTimestamp());  //写入缓存的时候顺便写入缓存的时间
@@ -126,18 +112,14 @@ function localFile(sourceUrl,imgName) {
                                          var dirPath = dirEntry.fullPath;
                                          var _localFile = dirPath+"/"+imgName+".jpg";
                                          var _localFile_download = dir+"/"+imgName+".jpg";
-                                         alert("fullpath for localfile="+_localFile);
                                          var _url = sourceUrl;
                                          //查找文件
                                          fileSystem.root.getFile(_localFile, null, function(fileEntry){
-                                             alert("have files already");
                                              //文件存在就直接显示
                                              var smallImage = document.getElementById(imgName);
                                              smallImage.style.display = 'block';
                                              //smallImage.src = fileEntry.fullPath;
                                              smallImage.src = fileEntry.toURL();
-                                             alert("entry.fullPath="+fileEntry.fullPath);
-                                             alert("entry.toURL="+fileEntry.toURL());
                                          }, function(){
                                              alert("redownload file");
                                              //否则就到网络下载图片!
@@ -174,7 +156,6 @@ function downloadPic(sourceUrl,targetUrl,id){
             smallImage.style.display = 'block';
             //smallImage.src = entry.fullPath;
             smallImage.src = entry.toURL();
-            alert("redownload entry.toURL="+entry.toURL());
         },function(error){
             console.log("下载网络图片出现错误");
         });
